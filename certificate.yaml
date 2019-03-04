@@ -1,0 +1,25 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata: 
+  name: bmf-serapiondev-com-tls
+spec:
+  secretName: bmf-serapiondev-com
+  issuerRef: 
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: bmf.serapiondev.com
+  dnsNames:
+    - bmf.serapiondev.com
+    - www.bmf.serapiondev.com
+  acme:
+    config:
+      - http01:
+          ingressClass: nginx
+        domains:
+          - bmf.serapiondev.com
+          - www.bmf.serapiondev.com
+
+
+   
+  
+   
