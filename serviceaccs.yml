@@ -28,5 +28,4 @@ spec:
             - name: INSTAGRAM_REDIRECT_URL
               value: "https://bmf-serapiondev.com/api/v1/auth/instagram/callback"
       imagePullSecrets:
-      - name: my-reg
-      
+      - name: regcred
