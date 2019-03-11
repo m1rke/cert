@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: registry.gitlab.com/brand-master-flash/bmf-web/bmf-backend:v23
+          image: registry.gitlab.com/brand-master-flash/bmf-web/bmf-backend:v17
           imagePullPolicy: Always
           ports:
             - containerPort: 3001
@@ -31,6 +31,8 @@ spec:
               value: "https://bmf.serapiondev.com/login"
             - name: INSTAGRAM_CONFIRM_REGISTRATION_URL
               value: "https://bmf.serapiondev.com/registration"
+            - name: APP_URL
+              value: "https://bmf.serapiondev.com"
       imagePullSecrets:
       - name: regcred
       
