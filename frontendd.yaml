@@ -14,10 +14,9 @@ spec:
     spec:
       containers:
         - name: client
-          image: registry.gitlab.com/brand-master-flash/bmf-web/bmf-frontend
-          tag: latest
+          image: registry.gitlab.com/brand-master-flash/bmf-web/bmf-frontend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
       imagePullSecrets:
-      - name: regcred
+      - name: my-reg
