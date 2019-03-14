@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: registry.gitlab.com/brand-master-flash/bmf-web/bmf-backend:26
+          image: registry.gitlab.com/brand-master-flash/bmf-web/bmf-backend:v26
           imagePullPolicy: Always
           ports:
             - containerPort: 3001
