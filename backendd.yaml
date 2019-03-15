@@ -68,6 +68,6 @@ spec:
             - name: INSTAGRAM_FAILURE_REDIRECT
               value: "https://bmf.serapiondev.com/login"
             - name: INSTAGRAM_CONFIRM_REGISTRATION_URL
-            value: "https://bmf.serapiondev.com/registration"           
+              value: "https://bmf.serapiondev.com/registration"           
       imagePullSecrets:
       - name: regcred
