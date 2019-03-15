@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: server
+  template:
+    metadata:
+      labels:
+        component: server
+    spec:
+      containers:
+        - name: server
+          image: registry.gitlab.com/brand-master-flash/bmf-web/bmf-backend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3001
+          env:
+            - name: MONGODB_URI
+              value: "mongodb://mongo-0.mongo:27017,mongo-1.mongo:27017,mongo-2.mongo:27017/serapion?replicaSet=rs0"
+            - name: APP_NAME
+              value: "Serapion Server v1.0.0"
+            - name: PORT
+              value: "3001"
+            - name: API_URL
+              value: "https://bmf.serapiondev.com"
+            - name: APP_URL
+              value: "https://bmf.serapiondev.com"
+            - name: CORS_ORIGINS
+              value: "https://bmf.serapiondev.com"
+            - name: APP_SECRET
+              value: "1b5c2f89543c1d86c94700c93b988ad3"
+            - name: LOG_FILES_PATH
+              value: "\\logs\\"
+            - name: NODE_TLS_REJECT_UNAUTHORIZED
+              value: "0"
+            - name: SMTP_SERVER
+              value: "smtp.ethereal.email"
+            - name: SMTP_PORT
+              value: "587"
+            - name: SMTP_USERNAME
+              value: "txb3tcdz7t2dxoax@ethereal.email"
+            - name: SMTP_PASSWORD
+              value: "X7J7nB2MFPsxEmzMED"
+            - name: DEFAULT_FROM_EMAIL
+              value: "no-reply@brandmasterflash.de"
+            - name: DEFAULT_FROM_EMAIL
+              value: "no-reply@brandmasterflash.de"
+            - name: PAYPAL_REDIRECT_URL
+              value: "https://bmf.serapiondev.com/api/v1/payment-success"
+            - name: PAYPAL_FAILURE_URL
+              value: "https://bmf.serapiondev.com/payment-failure"
+            - name: PAYPAL_SUCCESS_URL
+              value: "https://bmf.serapiondev.com/payment-success"
+            - name: PAYPAL_CLIENT_ID
+              value: "AW_wTP7P-khtUv2lDfSow0uk3gqYRw2NhPhMiAwKFvSgz-WUbpVKdKpOHTuWH2n7iujfZa0G7UcB5F5P"
+            - name: PAYPAL_CLIENT_SECRET
+              value: "EGQZlD5xayq9WZR8SdxkvoQX-A03k9h6DhJznRQN-jDQJ0jstKZfZzj-1t7O0XL9BSVOXlWLAHVj-9Ok"
+            - name: INSTAGRAM_CLIENT_SECRET
+              value: "5cefef2d62c44837937315c67fdc24c5"
+            - name: INSTAGRAM_CLIENT_ID
+              value: "b639b768125e49faa79597e6d33a2457"
+            - name: INSTAGRAM_REDIRECT_URL
+              value: "https://bmf.serapiondev.com/api/v1/auth/instagram/callback"
+            - name: INSTAGRAM_FAILURE_REDIRECT
+              value: "https://bmf.serapiondev.com/login"
+            - name: INSTAGRAM_CONFIRM_REGISTRATION_URL
+            value: "https://bmf.serapiondev.com/registration"           
+      imagePullSecrets:
+      - name: regcred
