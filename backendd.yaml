@@ -47,8 +47,6 @@ spec:
               value: "X7J7nB2MFPsxEmzMED"
             - name: DEFAULT_FROM_EMAIL
               value: "no-reply@brandmasterflash.de"
-            - name: DEFAULT_FROM_EMAIL
-              value: "no-reply@brandmasterflash.de"
             - name: PAYPAL_REDIRECT_URL
               value: "https://bmf.serapiondev.com/api/v1/payment-success"
             - name: PAYPAL_FAILURE_URL
