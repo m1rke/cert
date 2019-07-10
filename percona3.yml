@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: percona
+  labels:
+    name: percona
+spec:
+  ports:
+  - port: 27017
+    targetPort: 27017
+  clusterIP: None
+  selector:
+    role: percona
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: percona
+spec:
+  serviceName: "percona"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: percona
+        environment: production
+    spec:
+      terminationGracePeriodSeconds: 10
+        containers:
+    - name: percona
+      image: percona:5.7
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 3306
+          name: mysql
+      env:
+      - name: MYSQL_ROOT_PASSWORD # use only for debugging
+        value: "root"
+      - name: MYSQL_USER
+        value: "user"
+      - name: MYSQL_PASSWORD
+        value: "secret"
+      volumeMounts:
+      - name: mysql-config-volume ## volume - name
+        mountPath: /etc/mysql/my.cnf ## path to mount file
+        subPath: my_cnf ## name of config
+      - name: create-response-volume
+        mountPath: /docker-entrypoint-initdb.d/create_response_db.sql
+        subPath: create_response_db
+      - name: create-sender-volume
+        mountPath: /docker-entrypoint-initdb.d/create_sender_db.sql
+        subPath: create_sender_db
+      - name: create-transactional-volume
+        mountPath: /docker-entrypoint-initdb.d/create_transactional_db.sql
+        subPath: create_transactional_db      
+  volumes:
+    - name: mysql-config-volume ## volume name
+      configMap:
+        name: my-cnf ## name of ConfigMap
+    - name: create-response-volume
+      configMap:
+        name: create-response
+    - name: create-sender-volume
+      configMap:
+        name: create-sender
+    - name: create-transactional-volume
+      configMap:
+        name: create-transactional
