@@ -23,11 +23,6 @@ spec:
     metadata:
       labels:
         app: mysql
-      volumes:
-       - name: config-volume
-          configMap:
-            name: mysql-config
-            optional: true
       containers:
       - image: percona:ps-8
         name: mysql
@@ -38,6 +33,11 @@ spec:
         ports:
         - containerPort: 3306
           name: mysql
+      volumes:
+       - name: config-volume
+          configMap:
+            name: mysql-config
+            optional: true
         volumeMounts:
         - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
