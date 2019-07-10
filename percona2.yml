@@ -1,28 +1,31 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: percona
+  labels:
+    name: percona
 spec:
   ports:
-  - port: 3306
-  selector:
-    app: mysql
+  - port: 27017
+    targetPort: 27017
   clusterIP: None
----
-apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
-kind: Deployment
-metadata:
-  name: mysql
-spec:
   selector:
-    matchLabels:
-    app: mysql
-  strategy:
-    type: Recreate
+    role: percona
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: percona
+spec:
+  serviceName: "percona"
+  replicas: 2
   template:
     metadata:
       labels:
-        app: mysql
+        role: percona
+        environment: production
+    spec:
+      terminationGracePeriodSeconds: 10
       containers:
       - image: percona:ps-8
         name: mysql
