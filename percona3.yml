@@ -1,68 +1,74 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: percona
-  labels:
-    name: percona
-spec:
-  ports:
-  - port: 27017
-    targetPort: 27017
-  clusterIP: None
-  selector:
-    role: percona
----
-apiVersion: apps/v1beta1
-kind: StatefulSet
-metadata:
-  name: percona
-spec:
-  serviceName: "percona"
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        role: percona
-        environment: production
-    spec:
-      terminationGracePeriodSeconds: 10
-        containers:
-    - name: percona
-      image: percona:5.7
-      imagePullPolicy: Always
-      ports:
-        - containerPort: 3306
-          name: mysql
-      env:
-      - name: MYSQL_ROOT_PASSWORD # use only for debugging
-        value: "root"
-      - name: MYSQL_USER
-        value: "user"
-      - name: MYSQL_PASSWORD
-        value: "secret"
-      volumeMounts:
-      - name: mysql-config-volume ## volume - name
-        mountPath: /etc/mysql/my.cnf ## path to mount file
-        subPath: my_cnf ## name of config
-      - name: create-response-volume
-        mountPath: /docker-entrypoint-initdb.d/create_response_db.sql
-        subPath: create_response_db
-      - name: create-sender-volume
-        mountPath: /docker-entrypoint-initdb.d/create_sender_db.sql
-        subPath: create_sender_db
-      - name: create-transactional-volume
-        mountPath: /docker-entrypoint-initdb.d/create_transactional_db.sql
-        subPath: create_transactional_db      
-  volumes:
-    - name: mysql-config-volume ## volume name
-      configMap:
-        name: my-cnf ## name of ConfigMap
-    - name: create-response-volume
-      configMap:
-        name: create-response
-    - name: create-sender-volume
-      configMap:
-        name: create-sender
-    - name: create-transactional-volume
-      configMap:
-        name: create-transactional
+// C# example
+using UnityEditor;
+using System.IO;
+using System.Collections;
+using UnityEngine;
+using System.Collections.Generic;
+
+class SerapionBuildApp
+{
+    static string[] GetBuildScenes()
+	{
+		List<string> names = new List<string>();
+
+		foreach(EditorBuildSettingsScene e in EditorBuildSettings.scenes)
+		{
+			if(e==null)
+				continue;
+
+			if(e.enabled)
+				names.Add(e.path);
+		}
+		return names.ToArray();
+	}
+
+	static string GetBuildPath()
+	{
+		return "build/iPhone";
+	}
+
+	[UnityEditor.MenuItem("CUSTOM/Test Command Line Build Step")]
+	static void iPhoneBuild ()
+	{
+		Debug.Log("Command line build IPhone version\n------------------\n------------------");
+
+		string[] scenes = GetBuildScenes();
+		string path = GetBuildPath();
+		if(scenes == null || scenes.Length==0 || path == null)
+			return;
+
+		Debug.Log(string.Format("Path: \"{0}\"", path));
+		for(int i=0; i<scenes.Length; ++i)
+		{
+			Debug.Log(string.Format("Scene[{0}]: \"{1}\"", i, scenes[i]));
+		}
+
+		Debug.Log("Starting Build!");
+		BuildPipeline.BuildPlayer(scenes, path, BuildTarget.iOS, BuildOptions.None);
+	}
+
+    static string GetBuildPathAndroid()
+	{
+		return "build/android";
+	}
+
+	[UnityEditor.MenuItem("CUSTOM/Test Command Line Build Step Android")]
+	static void androidBuild ()
+	{
+		Debug.Log("Command line build Android version\n------------------\n------------------");
+
+		string[] scenes = GetBuildScenes();
+		string path = GetBuildPathAndroid();
+		if(scenes == null || scenes.Length==0 || path == null)
+			return;
+
+		Debug.Log(string.Format("Path: \"{0}\"", path));
+		for(int i=0; i<scenes.Length; ++i)
+		{
+			Debug.Log(string.Format("Scene[{0}]: \"{1}\"", i, scenes[i]));
+		}
+
+		Debug.Log("Starting Android Build!");
+		BuildPipeline.BuildPlayer(scenes, path, BuildTarget.Android, BuildOptions.None);
+	}
+}
