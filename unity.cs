@@ -17,7 +17,7 @@ public class SerapionBuild : MonoBehaviour
         buildPlayerOptions.scenes = new[] {"Assets/Scenes/MainMenuScene.unity", 
                                            "Assets/Scenes/MainScene.unity",
                                            "Assets/Scenes/LevelCreatorScene.unity"};
-        buildPlayerOptions.locationPathName = "build/iPhone";
+        buildPlayerOptions.locationPathName = "build/iPhone/";
         buildPlayerOptions.target = BuildTarget.iOS;
         buildPlayerOptions.options = BuildOptions.None;
 
@@ -42,7 +42,7 @@ public class SerapionBuild : MonoBehaviour
         buildPlayerOptions.scenes = new[] {"Assets/Scenes/MainMenuScene.unity", 
                                            "Assets/Scenes/MainScene.unity",
                                            "Assets/Scenes/LevelCreatorScene.unity"};
-        buildPlayerOptions.locationPathName = "build/android";
+        buildPlayerOptions.locationPathName = "build/android/kenningDemoFinal.apk";
         buildPlayerOptions.target = BuildTarget.Android;
         buildPlayerOptions.options = BuildOptions.None;
 
